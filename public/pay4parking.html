@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Park Chain</title>
+<style>
+form > *{
+	display:block;
+	width:100%;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+   $("#btnadd").click(function(){
+      $.ajax({url: "/getaddress", success: function(result){
+	  $("#newadd").html(result);
+       }});
+    });
+   $('#btnconfirm').click(function(){
+	   var txid = document.getElementById("txid").value;
+	   $.post("/confirmtransaction",{"txid":txid},function(result){
+       	   console.log(result);
+    }); 
+   });
+});
+</script>
+</head>
+<body>
+	<h1>Welcome to Car Parking system</h1>
+	<!--<form action="/paymoney" method="POST" onsubmit="return ">-->
+			<label for="stime">Start Time</label>
+			<input type="time" id="stime" name="stime" required/>
+			<label for="etime">End Time</label>
+		        <input type="time" id="etime" name="etime" required/>
+			<input type="button" id="btnadd" value="Generate"/>
+			<label id="newadd"></label>
+			<label>Send money to generated address to confirm parking</label>
+			<input type="text" id="txid" name="txid" placeholder="Transaction id" required/>
+			<input type="submit" id="btnconfirm" value="Confirm"/>
+			<!--	</form>-->
+</body>
+</html>

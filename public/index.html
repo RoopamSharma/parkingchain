@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Park Chain</title>
+<style>
+form > *{
+	display:block;
+	width:100%;
+}
+</style>
+<script>
+function checkpass(){
+    var pass1 = document.getElementById("pass1").value;
+    var pass2 = document.getElementById("pass2").value;
+    if(pass1!=pass2){
+	alert("Password do not match");  
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+</script>
+</head>
+<body>
+	<h1>Welcome to Car Parking system</h1>
+	<form action="/register" method="POST" onsubmit="return checkpass();">
+			<input type="text" id="name" name="name" placeholder="Username" required/>
+			<input type="password" id="pass1" name="pass1" placeholder="Enter Password"required/>
+			<input type="password" id="pass2" name="pass2" placeholder="Enter Password again" required/>
+			<input type="text" id="pubadd" name="pubadd" placeholder="Enter address to receive signup bonus" optional/>
+			<input type="submit" value="Register"/>
+	</form>
+	<a href="/login.html">Login</a> 
+</body>
+</html>

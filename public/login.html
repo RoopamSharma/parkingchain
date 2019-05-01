@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Park Chain</title>
+<style>
+form > *{
+	display:block;
+}
+</style>
+</head>
+<body>
+	<h1>Welcome to Car Parking system</h1>
+	<form action="/login" method="POST" onsubmit="return checkpass();">
+			<label for="name">Enter the username</label>
+			<input type="text" id="name" name="name" required/>
+			<label for="pass1">Enter the password</label>
+			<input type="password" id="pass" name="pass" required/>
+			<input type="submit" value="Login"/>
+	</form>
+	<a href="/index.html">Register</a> 
+</body>
+</html>
