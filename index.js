@@ -46,13 +46,13 @@ var dataString = (method,params)=>{return '{"jsonrpc": "1.0", "id":"curltest", "
 
 var options = (m,params)=>{
 return {
-    url: 'http://127.0.0.1:8668/',
+    url: 'http://127.0.0.1:9965/',
     method: 'POST',
     headers: headers,
     body: dataString(m,params),
     auth: {
-        'user': 'user677973848',
-        'pass': 'passe5c65473ef0f27c1820cff4cae182ed08563b439b0dbeff26326f411432bb4b31f'
+        'user': 'user4008635038',
+        'pass': 'passb729a205daa6a4f5008a9abb66a63b6e3680ca636aa7af2b352d0a1bf229f55b40'
     }
  }
 };
@@ -66,7 +66,7 @@ app.get("/getaddress",(req,res)=>{
 });
 
 app.post("/paymoney",(req,res)=>{
-     request(options("getwalletinfo".req.body.txid), (err,response,body)=>{
+     request(options("getwalletinfo",req.body.txid), (err,response,body)=>{
            if(!err && response.statusCode==200){
 	   	res.end(body);
 	   }    
@@ -74,11 +74,18 @@ app.post("/paymoney",(req,res)=>{
 });
 
 app.post("/confirmtransaction",(req,res)=>{
-  request(options(""
-
+  request(options("gettransaction",req.body.txid),(err,response,body)=>{
+  	if(body.result==null){
+	   res.end("false");
+	}
+	else{
+	  console.log(body);
+	  return "true";
+	}
+  });
 });
 
-app.listen(3000, ()=>{
+app.listen(3001, ()=>{
    console.log('Example app listening on port 3000!');
 });
 
