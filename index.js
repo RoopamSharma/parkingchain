@@ -2,6 +2,8 @@ var express = require('express');
 var http = require('http');
 var MongoClient = require('mongodb').MongoClient;
 var app = express();
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 const url = "mongodb://localhost:27017/";
 const dbname = 'parkingdb';
 const bodyparser = require('body-parser');
@@ -9,9 +11,48 @@ const bodyparser = require('body-parser');
 app.use(express.static(__dirname+"/public"));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+app.use(session({
+   name:'session-id',
+   secret: '12345678',
+   saveUninitialized: false,
+   resave: false,
+   store: new FileStore()
+}));
 
 app.get('/', (req, res)=>{
-    res.sendFile(__dirname+'/public/index.html'); 
+    if(req.session.user==null){
+       res.sendFile(__dirname+'/public/register.html'); 
+    }
+    else{
+       res.redirect("/homepage");
+    }
+});
+
+app.get("/pay4parking",(req,res)=>{
+   if(req.session.user){
+      res.sendFile(__dirname+"/public/pay4parking.html");
+   }
+   else{
+     res.redirect("/loginpage");
+   }
+});
+
+app.get("/loginpage",(req,res)=>{
+   if(req.session.user){
+      res.redirect("/homepage");
+   }
+   else{
+     res.sendFile(__dirname+"/public/login.html");
+   }
+});
+
+app.get("/homepage",(req,res)=>{
+   if(req.session.user){
+      res.sendFile(__dirname+"/public/homepage.html");
+   }
+   else{
+      res.redirect("/loginpage");
+   }
 });
 
 // register amd save information into database
@@ -22,8 +63,9 @@ app.post("/register",(req,res)=>{
    coll.insertOne({'name':req.body.name,'passwd':req.body.pass1});
    client.close();
    });
-   res.sendFile(__dirname+"/public/login.html");
+   res.redirect("/loginpage");
 });
+
 
 // check login details
 app.post("/login",(req, res)=>{
@@ -31,12 +73,16 @@ app.post("/login",(req, res)=>{
      const db = client.db(dbname);
      const coll = db.collection('users');
      console.log("Username and password: "+req.body.name+", "+req.body.pass);
-     const obj = coll.find({'name':req.body.name,'passwd':req.body.pass});
-     return obj;
-     while(docs.hasNext()){
-         console.log(docs.next()); 
-    }
-   });
+     coll.findOne({'name':req.body.name,'passwd':req.body.pass},(err,result)=>{
+        if(result){
+        req.session.user=req.body.name;
+	res.redirect("/homepage");
+	}
+	else{
+	res.redirect("/loginpage");
+	}
+    });
+ });
 });
 
 // komodo api calls
@@ -66,26 +112,29 @@ app.get("/getaddress",(req,res)=>{
 });
 
 app.post("/paymoney",(req,res)=>{
-     request(options("getwalletinfo",req.body.txid), (err,response,body)=>{
-           if(!err && response.statusCode==200){
-	   	res.end(body);
-	   }    
-     });
+   MongoClient.connect(url).then((client)=>{
+   const db = client.db(dbname);
+   const coll = db.collection('parking');
+   coll.insertOne({'plateno':req.body.plateno,'txid':req.body.txid,'name':'roopam'});
+   client.close();
+   res.end("<html><body>Parking spot confirmed successfully! <br/> <a href='/homepage'>Homepage</a></body></html>"); 
+  });
 });
 
 app.post("/confirmtransaction",(req,res)=>{
-  request(options("gettransaction",req.body.txid),(err,response,body)=>{
-  	if(body.result==null){
+   console.log(req.body.txid);
+   request(options("gettransaction",req.body.txid),(err,response,body)=>{
+  	var r = JSON.parse(body);
+	if(r.result==null){
 	   res.end("false");
 	}
 	else{
-	  console.log(body);
-	  return "true";
+	  res.end("true");
 	}
   });
 });
 
 app.listen(3001, ()=>{
-   console.log('Example app listening on port 3000!');
+   console.log('Example app listening on port 3001!');
 });
 

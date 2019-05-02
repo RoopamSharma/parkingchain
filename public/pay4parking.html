@@ -15,27 +15,39 @@ $(document).ready(function(){
 	  $("#newadd").html(result);
        }});
     });
+
    $('#btnconfirm').click(function(){
-	   var txid = document.getElementById("txid").value;
+   var txid = document.getElementById("txid").value;
 	   $.post("/confirmtransaction",{"txid":txid},function(result){
        	   console.log(result);
+	   if(result=="true"){
+	      $('#payform').submit();
+	      return true;
+	   }
+	   else{
+	      alert("Invalid Transaction");
+	      return false;
+	   }
     }); 
-   });
+  });
 });
+
+
 </script>
 </head>
 <body>
 	<h1>Welcome to Car Parking system</h1>
-	<!--<form action="/paymoney" method="POST" onsubmit="return ">-->
+	<form id="payform" action="/paymoney" method="POST">
 			<label for="stime">Start Time</label>
 			<input type="time" id="stime" name="stime" required/>
 			<label for="etime">End Time</label>
 		        <input type="time" id="etime" name="etime" required/>
+			<input type="text" id="plateno" name="plateno" placeholder="Enter the plate no"required/>
 			<input type="button" id="btnadd" value="Generate"/>
 			<label id="newadd"></label>
 			<label>Send money to generated address to confirm parking</label>
 			<input type="text" id="txid" name="txid" placeholder="Transaction id" required/>
-			<input type="submit" id="btnconfirm" value="Confirm"/>
-			<!--	</form>-->
+			<input type="button" id="btnconfirm" value="Confirm"/>
+	</form>
 </body>
 </html>
