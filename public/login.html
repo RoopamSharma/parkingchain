@@ -1,21 +1,22 @@
 <html>
 <head>
 <title>Park Chain</title>
-<style>
-form > *{
-	display:block;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-	<h1>Welcome to Car Parking system</h1>
+	<div class="header">
+		<a class="logo" href="/">ParkChain</a>
+
+	</div>	
+<div class="body">
+
+	<h1>Welcome back!</h1>
 	<form action="/login" method="POST" >
-			<label for="name">Enter the username</label>
-			<input type="text" id="name" name="name" required/>
-			<label for="pass1">Enter the password</label>
-			<input type="password" id="pass" name="pass" required/>
-			<input type="submit" value="Login"/>
-	</form>
-	<a href="/">Register</a> 
+			<input type="text" id="name" name="name" placeholder="username" required/>
+			<input type="password" id="pass" name="pass" placeholder="password" required/>
+			<input class="btnclass" id="btnlogin" type="submit" value="Login"/>
+			<input class="btnclass" id="btnreg" type="button" value="Register" onclick="location.href='/'"/>
+	</form> 
+</div>		
 </body>
 </html>

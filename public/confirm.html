@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Park Chain</title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+<div class="header">
+<a class="logo" href="/">ParkChain</a>
+<input type="button" class='btnclass logout' onclick="location.href='/logout'" value="Log out"/></div>	
+<div class="body">
+	<h1>Send money and Confirm</h1>
+        <form id="confirmform" action="/paymoney" method="POST">		
+ 	<div>Send money to generated address to confirm parking spot</div>
+  	<input type="button" id="btnadd" class="btnclass" value="Generate"/>
+        <div id="newadd" style="margin-top:7px;height:0px"></div>
+	<canvas id="canvas" style="margin-top:18px;margin-bottom:7px;height:0px"></canvas>
+	<input type="textarea"  id="txid" name="txid" placeholder="Transaction id" required/>
+	<input type="button" class="btnclass" id="btnconfirm" value="Confirm"/>
+	</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+   $("#btnadd").click(function(){
+      $.ajax({url: "/getaddress", success: function(result){
+	  var r = JSON.parse(result);
+	     $("#newadd").html(r.result);
+	     QRCode.toCanvas(document.getElementById('canvas'), r.result, function (error) {
+	      if (error) console.error(error)
+		          console.log('success!');
+	        })
+       }});
+    });
+
+   $('#btnconfirm').click(function(){
+   var txid = document.getElementById("txid").value;
+   var add = document.getElementById("newadd").innerHTML;
+	   $.post("/confirmtransaction",{"txid":txid,"address":add },function(result){
+       	   console.log(result);
+	   if(result=="true"){
+	     $("#confirmform").submit();
+	   }
+	   else{
+	      alert("Invalid Transaction");
+	   }
+    }); 
+  });
+
+$("#txid").keydown(function(event){
+   console.log("called: "+event.keyCode);
+   if(event.keyCode===13){
+     $("#btnconfirm").click();
+     return false;
+   }
+});
+
+});
+</script>
+<script src="/build/qrcode.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+body{
+   background-color:#1261A0;
+}
+
+form > input{
+   display:block;
+   width:90%;
+   margin-bottom:10px;
+   padding:5px;
+   border:0.5px solid gray;
+}
+
+h1{
+   width:auto; 
+   margin-top:2%;
+   margin-left:auto;
+   margin-right:auto;
+   color:#0000CD;
+   color:white;
+}
+
+.btnclass{
+   display:inline;
+   margin:5px;
+   margin-left:0px;
+   width:30%;
+}
+
+#btnadd{
+  background-color:#52D017;
+  padding:2px;
+  padding-left:4px;
+  padding-right:4px;	
+  color:white;
+}
+
+#btnreg,#btnsubmit,#btnconfirm{
+  background-color:#1261A0;
+  padding:2px;
+  padding-left:4px;
+  padding-right:4px;	
+  color:white;
+}
+
+#btnlogin{
+  color:white;
+  background-color:#32CD32;
+  padding:2px;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+.btnclass:hover{
+   text-decoration:underline;
+   cursor:pointer;
+}
+
+.header{
+   height:100px;
+   position:absolute;
+   left:0px;
+   right:0px;
+   top:0px;
+   float:right;
+   background-color:white;
+}
+
+.logout{
+   float: right;
+   position: relative;
+   top: 40px;
+   right:40px;
+   width:auto;
+   background: none;
+   border: none;
+   color:#1261A0;
+   font-size:18px;
+}
+
+.logout:hover{
+   color:red;
+   border:1px solid red;
+   text-decoration:none;
+}
+
+.home{
+   text-decoration:none;
+   font-size:25px;
+   color:white;
+}
+
+.home:hover{
+   text-decoration:underline;
+}
+
+.logo{
+   position:absolute;
+   top:30px;
+   font-size:35px;
+   margin-left:50px;
+   margin-top:auto;
+   text-decoration: none;
+   font-weight: bold;
+   font-family: monospace;
+   color:#1261A0;
+}
+
+.body{
+   position:relative;
+   top:120px;
+   text-align:center;
+}
+
+#tblhist{
+   width:40%;
+   height:auto;
+   margin-left:auto;
+   margin-right:auto;
+   margin-bottom:30px;
+   margin-top:20px;
+   background-color:white;
+   text-align:center;
+   padding:20px;
+}
+
+table{
+   border-collapse: collapse;
+}
+
+table, th, td {
+   border-bottom: 1px solid #ddd;
+   text-align: left;
+   padding: 15px;
+}
+
+tr:nth-child(even) {
+   background-color: #f2f2f2;
+}
+
+.pay{
+   width:180px;
+   margin-right:2%;
+   height:50px;
+   background-color:white;
+   border:none; 
+}
+
+.history{
+   width:180px;
+   margin-left:2%;
+   height:50px;
+   background-color:white;
+   border:none;
+}
+
+form{
+	margin-bottom: 10px;
+	width:22%;
+	margin-top:2%	;
+	margin-left: auto;
+	margin-right: auto;
+	padding:20px;
+	background-color:#FFFFFA;
+	word-wrap:break-word;
+	text-align:left;
+}

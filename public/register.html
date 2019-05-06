@@ -1,12 +1,25 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Park Chain</title>
-<style>
-form > *{
-	display:block;
-	width:100%;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+<div class="header">
+		<a class="logo" href="/">ParkChain</a>	
+</div>	
+<div class="body">
+<h1>Create a new account</h1>
+<form action="/register" method="POST" onsubmit="return checkpass();">
+<input type="text" id="name" name="name" placeholder="Enter Username" required/>
+<input type="password" id="pass1" name="pass1" placeholder="Enter Password" required/>
+<input type="password" id="pass2" name="pass2" placeholder="Enter Password again" required/>
+<input type="text" id="pubadd" name="pubadd" placeholder="Enter a public address to receive signup bonus" optional/>
+<input class="btnclass" id="btnreg" type="submit" value="Register"/>
+<input type="button" id="btnlogin" onclick="location.href='/loginpage'" class="btnclass" value="Login">
+</form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
 function checkpass(){
     var pass1 = document.getElementById("pass1").value;
@@ -16,20 +29,19 @@ function checkpass(){
         return false;
     }
     else{
-        return true;
+	    var uname = document.getElementById("name").value;
+	    $.post("/validateuser",{"username":uname},(result)=>{
+	    	if(result=="true"){
+		   return true;
+		}
+		else{
+	           alert("Username already taken!");
+		   window.location.replace("/");
+	           return false;	   
+		}
+	    });
     }
 }
 </script>
-</head>
-<body>
-	<h1>Welcome to Car Parking system</h1>
-	<form action="/register" method="POST" onsubmit="return checkpass();">
-			<input type="text" id="name" name="name" placeholder="Username" required/>
-			<input type="password" id="pass1" name="pass1" placeholder="Enter Password"required/>
-			<input type="password" id="pass2" name="pass2" placeholder="Enter Password again" required/>
-			<input type="text" id="pubadd" name="pubadd" placeholder="Enter address to receive signup bonus" optional/>
-			<input type="submit" value="Register"/>
-	</form>
-	<a href="/loginpage">Login</a> 
 </body>
 </html>

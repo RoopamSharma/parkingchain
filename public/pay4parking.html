@@ -1,53 +1,23 @@
 <html>
 <head>
 <title>Park Chain</title>
-<style>
-form > *{
-	display:block;
-	width:100%;
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-   $("#btnadd").click(function(){
-      $.ajax({url: "/getaddress", success: function(result){
-	  $("#newadd").html(result);
-       }});
-    });
-
-   $('#btnconfirm').click(function(){
-   var txid = document.getElementById("txid").value;
-	   $.post("/confirmtransaction",{"txid":txid},function(result){
-       	   console.log(result);
-	   if(result=="true"){
-	      $('#payform').submit();
-	      return true;
-	   }
-	   else{
-	      alert("Invalid Transaction");
-	      return false;
-	   }
-    }); 
-  });
-});
-
-
-</script>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-	<h1>Welcome to Car Parking system</h1>
-	<form id="payform" action="/paymoney" method="POST">
+	<div class="header">
+		<a class="logo" href="/">ParkChain</a>
+	<input type="button" class='btnclass logout' onclick="location.href='/logout'" value="Log out"/>	
+	</div>	
+<div class="body">
+	<h1>Choose the parking details</h1>
+	<form id="payform" action="/verifytransaction" method="POST">
 			<label for="stime">Start Time</label>
 			<input type="time" id="stime" name="stime" required/>
 			<label for="etime">End Time</label>
 		        <input type="time" id="etime" name="etime" required/>
 			<input type="text" id="plateno" name="plateno" placeholder="Enter the plate no"required/>
-			<input type="button" id="btnadd" value="Generate"/>
-			<label id="newadd"></label>
-			<label>Send money to generated address to confirm parking</label>
-			<input type="text" id="txid" name="txid" placeholder="Transaction id" required/>
-			<input type="button" id="btnconfirm" value="Confirm"/>
+			<input type="submit" class="btnclass" id="btnsubmit" value="Submit"/>
 	</form>
+</div>	
 </body>
 </html>
